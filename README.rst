@@ -1,6 +1,6 @@
 
 Mango IR (intermediary representation)
-===============================
+=======================================
 
 Mango IR is the data structure that represents the code after parsing and checking, but before code generation and most optimizations.
 
