@@ -1,7 +1,7 @@
 [package]
 name = "mango_ir"
 description = "The Mango programming IR (UNDER CONSTRUCTION)"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Mark <mverleg.noreply@gmail.com>"]
 edition = "2018"
 homepage = "https://mangocode.org/"
