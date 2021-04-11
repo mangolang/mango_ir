@@ -3,10 +3,7 @@ use ::std::fmt::Formatter;
 
 use ::lazy_static::lazy_static;
 use ::regex::Regex;
-
 use crate::codeparts::name::Name;
-use crate::common::codeparts::name::Name;
-use crate::common::error::MsgResult;
 
 lazy_static! {
     pub static ref FQN_RE: Regex = Regex::new(r"^(?:[a-zA-Z][_a-zA-Z0-9]*\.)*(?:_*[a-zA-Z][_a-zA-Z0-9]*|_\b)").unwrap();
@@ -38,7 +35,7 @@ impl fmt::Display for Fqn {
 }
 
 impl Fqn {
-    pub fn new(name: impl AsRef<str>) -> MsgResult<Self> {
+    pub fn new(name: impl AsRef<str>) -> Result<Self, String> {
         let mut parts = vec![];
         for part in name.as_ref().split('.') {
             let name = Name::new(part)?;
@@ -91,23 +88,24 @@ impl Fqn {
 
 #[cfg(test)]
 mod technical {
-    use crate::common::codeparts::name::name;
-
     use super::*;
 
     #[test]
     fn new_simple() {
         let fqn = Fqn::new("TheName1").unwrap();
         assert_eq!(fqn.as_string(), "TheName1".to_owned());
-        assert_eq!(fqn.parts(), &[name("TheName1")]);
-        assert_eq!(fqn.as_simple_name(), Some(name("TheName1")));
+        assert_eq!(fqn.parts(), &[Fqn::new("TheName1").unwrap()]);
+        assert_eq!(fqn.as_simple_name(), Some(Name::new("TheName1").unwrap()));
     }
 
     #[test]
     fn new_complex() {
         let fqn = Fqn::new("package.module1.module2.Class").unwrap();
         assert_eq!(fqn.as_string(), "package.module1.module2.Class".to_owned());
-        assert_eq!(fqn.parts(), &[name("package"), name("module1"), name("module2"), name("Class")]);
+        assert_eq!(fqn.parts(), &[Fqn::new("package").unwrap(),
+            Fqn::new("module1").unwrap(),
+            Fqn::new("module2").unwrap(),
+            Fqn::new("Class").unwrap()]);
         assert_eq!(fqn.as_simple_name(), None);
     }
 
@@ -117,5 +115,18 @@ mod technical {
         assert_eq!(Fqn::new("a.b.c.Hello").unwrap(), Fqn::new("a.b.c.Hello").unwrap());
         assert_ne!(Fqn::new("Hello").unwrap(), Fqn::new("Goodbye").unwrap());
         assert_ne!(Fqn::new("a.b.c.Hello").unwrap(), Fqn::new("a.b.d.Hello").unwrap());
+    }
+
+    #[test]
+    fn pushing() {
+        let mut name = Fqn::new("alpha").unwrap();
+        name.push(Name::from_valid("beta"));
+        assert_eq!(name.as_string(), "alpha.beta");
+    }
+
+    #[test]
+    fn leaf() {
+        let name = Fqn::new("alpha.beta").unwrap();
+        assert_eq!(name.leaf(), "beta");
     }
 }

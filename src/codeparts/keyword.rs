@@ -7,8 +7,6 @@ use ::std::str::FromStr;
 
 use ::lazy_static::lazy_static;
 
-use crate::common::error::{ErrMsg, MsgResult};
-
 lazy_static! {
     // Note: keywords must follow the same rules as identifiers, or the lexer will
     // not recognize them. For example, no multi-word keywords.
@@ -191,7 +189,6 @@ impl Keyword {
 
     pub fn to_str(&self) -> Cow<str> {
         match self {
-            //TODO @mark: forgot why I used Cow here
             Keyword::Let => Cow::from("let"),
             Keyword::Mut => Cow::from("mut"),
             Keyword::If => Cow::from("if"),
@@ -211,12 +208,12 @@ impl Keyword {
 }
 
 impl FromStr for Keyword {
-    type Err = ErrMsg;
+    type Err = String;
 
-    fn from_str(txt: &str) -> MsgResult<Self> {
+    fn from_str(txt: &str) -> Result<Self, Self::Err> {
         match Keyword::from_word(txt) {
             Some(word) => Ok(word),
-            None => Err(ErrMsg::new(format!("Unknown keywords: '{}'", txt))),
+            None => Err(format!("Unknown keywords: '{}'", txt)),
         }
     }
 }

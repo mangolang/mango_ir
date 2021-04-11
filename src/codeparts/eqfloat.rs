@@ -1,15 +1,20 @@
 use ::std::cmp::Ordering;
 use ::std::{fmt, hash};
 
-use derive_new::new;
-
 /// This is a wrapper for f64 that implements Eq and Hash,
 /// by defining that NAN == NAN. It intentionally can't
 /// be used for arithmetic, as rounding errors would be bad
 /// for e.g. HashMap keys.
-#[derive(new, Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 #[allow(non_camel_case_types)]
 pub struct f64eq(pub f64);
+
+impl f64eq {
+    pub fn new(value: impl Into<f64>) -> Self {
+        let value = value.into();
+        f64eq(value)
+    }
+}
 
 impl fmt::Display for f64eq {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

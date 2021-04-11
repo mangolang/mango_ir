@@ -5,9 +5,7 @@ use ::lazy_static::lazy_static;
 use ::regex::Regex;
 use ::ustr::ustr;
 use ::ustr::Ustr;
-
-use crate::common::codeparts::fqn::Fqn;
-use crate::common::error::MsgResult;
+use crate::codeparts::fqn::Fqn;
 
 lazy_static! {
     pub static ref IDENTIFIER_RE: Regex = Regex::new(r"^(?:_*[a-zA-Z][_a-zA-Z0-9]*|_\b)").unwrap();
@@ -52,7 +50,7 @@ impl fmt::Display for Name {
 }
 
 impl Name {
-    pub fn new(name: impl AsRef<str>) -> MsgResult<Self> {
+    pub fn new(name: impl AsRef<str>) -> Result<Self, String> {
         let name = name.as_ref();
         match Name::validate(name) {
             Ok(_) => Ok(Name { name: ustr(name) }),
@@ -66,7 +64,7 @@ impl Name {
         Name { name: ustr(name) }
     }
 
-    pub fn from(name: Ustr) -> MsgResult<Self> {
+    pub fn from(name: Ustr) -> Result<Self, String> {
         match Name::validate(name.as_str()) {
             Ok(_) => Ok(Name { name }),
             Err(msg) => Err(msg),
@@ -90,7 +88,7 @@ impl Name {
         self.name
     }
 
-    pub fn validate(name: &str) -> MsgResult<()> {
+    pub fn validate(name: &str) -> Result<(), String> {
         match name.chars().next() {
             Some(chr) => {
                 if chr.is_digit(10) {
@@ -107,14 +105,14 @@ impl Name {
                     "Identifier '{}' is invalid; names should contain only letters, numbers and underscores.",
                     name
                 )
-                .into());
+                    .into());
             }
         } else {
             return Err(format!(
                 "Identifier '{}' is invalid; names should consist of letters, numbers and underscores, and not start with a number.",
                 name
             )
-            .into());
+                .into());
         }
         Ok(())
     }
