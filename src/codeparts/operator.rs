@@ -7,8 +7,10 @@ use ::regex::Regex;
 
 lazy_static! {
     static ref OPERATOR_STR: String = r"^(?:\+|-|\*|/|!|\?)".to_owned();
-    pub static ref SYMBOL_RE: Regex = Regex::new(&format!("^(?:==|<=|>=|<|>|{})", &*OPERATOR_STR)).unwrap();
-    pub static ref ASSOCIATION_RE: Regex = Regex::new(&format!("^(?:{})?=", &*OPERATOR_STR)).unwrap();
+    pub static ref SYMBOL_RE: Regex =
+        Regex::new(&format!("^(?:==|<=|>=|<|>|{})", &*OPERATOR_STR)).unwrap();
+    pub static ref ASSOCIATION_RE: Regex =
+        Regex::new(&format!("^(?:{})?=", &*OPERATOR_STR)).unwrap();
 }
 
 /// The different operator codeparts that are recognized.

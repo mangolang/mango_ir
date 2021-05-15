@@ -1,11 +1,11 @@
 use ::std::fmt;
 use ::std::fmt::Formatter;
 
+use crate::codeparts::fqn::Fqn;
 use ::lazy_static::lazy_static;
 use ::regex::Regex;
 use ::ustr::ustr;
 use ::ustr::Ustr;
-use crate::codeparts::fqn::Fqn;
 
 lazy_static! {
     pub static ref IDENTIFIER_RE: Regex = Regex::new(r"^(?:_*[a-zA-Z][_a-zA-Z0-9]*|_\b)").unwrap();
@@ -104,15 +104,13 @@ impl Name {
                 return Err(format!(
                     "Identifier '{}' is invalid; names should contain only letters, numbers and underscores.",
                     name
-                )
-                    .into());
+                ));
             }
         } else {
             return Err(format!(
                 "Identifier '{}' is invalid; names should consist of letters, numbers and underscores, and not start with a number.",
                 name
-            )
-                .into());
+            ));
         }
         Ok(())
     }
@@ -220,8 +218,9 @@ mod validation {
         assert_validity(
             false,
             &[
-                " ", "\t", "\n", "~", "!", "@", "#", "$", "€", "%", "^", "&", "*", "(", ")", "-", "+", "=", "}", "}", "[", "]", ":", ";",
-                "\"", "'", "\\", "|", "/", "<", ">", ",", ".", "/", "?",
+                " ", "\t", "\n", "~", "!", "@", "#", "$", "€", "%", "^", "&", "*", "(", ")", "-",
+                "+", "=", "}", "}", "[", "]", ":", ";", "\"", "'", "\\", "|", "/", "<", ">", ",",
+                ".", "/", "?",
             ],
         );
     }

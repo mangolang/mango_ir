@@ -3,10 +3,12 @@ use ::std::fmt::Formatter;
 
 use ::lazy_static::lazy_static;
 use ::regex::Regex;
+
 use crate::codeparts::name::Name;
 
 lazy_static! {
-    pub static ref FQN_RE: Regex = Regex::new(r"^(?:[a-zA-Z][_a-zA-Z0-9]*\.)*(?:_*[a-zA-Z][_a-zA-Z0-9]*|_\b)").unwrap();
+    pub static ref FQN_RE: Regex =
+        Regex::new(r"^(?:[a-zA-Z][_a-zA-Z0-9]*\.)*(?:_*[a-zA-Z][_a-zA-Z0-9]*|_\b)").unwrap();
 }
 
 //TODO @mark: maybe cache hashcode and make comparisons (and hash) faster
@@ -102,19 +104,30 @@ mod technical {
     fn new_complex() {
         let fqn = Fqn::new("package.module1.module2.Class").unwrap();
         assert_eq!(fqn.as_string(), "package.module1.module2.Class".to_owned());
-        assert_eq!(fqn.parts(), &[Fqn::new("package").unwrap(),
-            Fqn::new("module1").unwrap(),
-            Fqn::new("module2").unwrap(),
-            Fqn::new("Class").unwrap()]);
+        assert_eq!(
+            fqn.parts(),
+            &[
+                Fqn::new("package").unwrap(),
+                Fqn::new("module1").unwrap(),
+                Fqn::new("module2").unwrap(),
+                Fqn::new("Class").unwrap()
+            ]
+        );
         assert_eq!(fqn.as_simple_name(), None);
     }
 
     #[test]
     fn equality() {
         assert_eq!(Fqn::new("Hello").unwrap(), Fqn::new("Hello").unwrap());
-        assert_eq!(Fqn::new("a.b.c.Hello").unwrap(), Fqn::new("a.b.c.Hello").unwrap());
+        assert_eq!(
+            Fqn::new("a.b.c.Hello").unwrap(),
+            Fqn::new("a.b.c.Hello").unwrap()
+        );
         assert_ne!(Fqn::new("Hello").unwrap(), Fqn::new("Goodbye").unwrap());
-        assert_ne!(Fqn::new("a.b.c.Hello").unwrap(), Fqn::new("a.b.d.Hello").unwrap());
+        assert_ne!(
+            Fqn::new("a.b.c.Hello").unwrap(),
+            Fqn::new("a.b.d.Hello").unwrap()
+        );
     }
 
     #[test]
