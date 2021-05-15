@@ -81,6 +81,7 @@ lazy_static! {
         assert!(keywords.insert("implements", Keyword::Reserved("implements".to_owned())).is_none());
         assert!(keywords.insert("import", Keyword::Reserved("import".to_owned())).is_none());
         assert!(keywords.insert("init", Keyword::Reserved("init".to_owned())).is_none());
+        assert!(keywords.insert("inject", Keyword::Reserved("inject".to_owned())).is_none());
         assert!(keywords.insert("int", Keyword::Reserved("int".to_owned())).is_none());
         assert!(keywords.insert("interface", Keyword::Reserved("interface".to_owned())).is_none());
         assert!(keywords.insert("internal", Keyword::Reserved("internal".to_owned())).is_none());
