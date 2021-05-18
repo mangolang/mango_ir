@@ -49,6 +49,7 @@ impl Symbol {
             "?" => Ok(Question),
             "->" => Ok(RightArrow),
             "➔" => Ok(RightArrow),
+            "⊥" => unimplemented!(), //TODO @mark:
             _ => Err(format!("Unknown symbol: '{}'", symbol_txt.to_owned())),
         }
     }
