@@ -102,7 +102,6 @@ lazy_static! {
         assert!(keywords.insert("move", Keyword::Reserved("move".to_owned())).is_none());
         assert!(keywords.insert("NaN", Keyword::Reserved("NaN".to_owned())).is_none());
         assert!(keywords.insert("native", Keyword::Reserved("native".to_owned())).is_none());
-        assert!(keywords.insert("new", Keyword::Reserved("new".to_owned())).is_none());
         assert!(keywords.insert("nill", Keyword::Reserved("nill".to_owned())).is_none());
         assert!(keywords.insert("none", Keyword::Reserved("none".to_owned())).is_none());
         assert!(keywords.insert("null", Keyword::Reserved("null".to_owned())).is_none());
@@ -179,6 +178,7 @@ pub enum Keyword {
     Alias,
     Entrypoint,
     Test,
+    New,
     Reserved(String),
 }
 
@@ -203,6 +203,7 @@ impl Keyword {
             Keyword::Alias => Cow::from("as"),
             Keyword::Entrypoint => Cow::from("main"),
             Keyword::Test => Cow::from("test"),
+            Keyword::New => Cow::from("new"),
             Keyword::Reserved(name) => Cow::from(name),
         }
     }
