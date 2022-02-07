@@ -114,6 +114,7 @@ lazy_static! {
         assert!(keywords.insert("package", Keyword::Reserved("package".to_owned())).is_none());
         assert!(keywords.insert("param", Keyword::Reserved("param".to_owned())).is_none());
         assert!(keywords.insert("pass", Keyword::Reserved("pass".to_owned())).is_none());
+        assert!(keywords.insert("proof", Keyword::Reserved("proof".to_owned())).is_none());
         assert!(keywords.insert("private", Keyword::Reserved("private".to_owned())).is_none());
         assert!(keywords.insert("public", Keyword::Reserved("public".to_owned())).is_none());
         assert!(keywords.insert("pure", Keyword::Reserved("pure".to_owned())).is_none());
